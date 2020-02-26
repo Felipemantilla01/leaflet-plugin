@@ -4,7 +4,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    margin: 30px;
+    margin: 30px 150px 30px 30px;
   }
   
   .map-frame {
@@ -15,3 +15,11 @@
   #map {
     height: 100%;
   }
+
+
+  .fixed-right-up{
+    display:scroll;
+    position:fixed;
+    top:40px;
+    right:20px;
+}

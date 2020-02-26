@@ -1,3 +1,4 @@
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 @import "~leaflet/dist/leaflet.css";
 
 .cards-list {
@@ -126,20 +127,14 @@
     stroke:red;
     stroke-width: 10px;
     stroke-dasharray: 15 15;    
-    animation: example 5s infinite;
+    animation: example 500ms infinite;
   }
 
   @keyframes example {
-     from {stroke-dashoffset: 100;}
+     from {stroke-dashoffset:20;}
      to {stroke-dashoffset: 0;}    
   }
 
   
-
-  .div {
-    width: 100px;
-    height: 100px;
-    background-color: red;
-    animation-name: example;
-    animation-duration: 4s;
-  }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
