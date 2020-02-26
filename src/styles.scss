@@ -125,17 +125,16 @@
   .line{
     stroke:red;
     stroke-width: 10px;
-    animation-name: example;
-    animation-duration: 4s;
+    stroke-dasharray: 15 15;    
+    animation: example 5s infinite;
   }
 
   @keyframes example {
-    // from {stroke: red;}
-    // to {stroke: yellow;}
-    0%{
-      
-    }
+     from {stroke-dashoffset: 100;}
+     to {stroke-dashoffset: 0;}    
   }
+
+  
 
   .div {
     width: 100px;
