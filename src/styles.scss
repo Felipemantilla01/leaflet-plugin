@@ -1,1 +1,123 @@
-/* You can add global styles to this file, and also import other style files */
+@import "~leaflet/dist/leaflet.css";
+
+.cards-list {
+    z-index: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+  
+  .card {
+    margin: -70px;
+    width: 150px;
+    height: 150px;
+    border-radius: 40px;
+  box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.22);
+    cursor: grab;
+    transition: 0.2s;
+  }
+
+//   .card:active {
+//     cursor: grabbing;
+//   }
+  
+  .card .card_image {
+    width: inherit;
+    height: inherit;
+    border-radius: 40px;
+  }
+  
+  .card .card_image img {
+    width: inherit;
+    height: inherit;
+    border-radius: 40px;
+    object-fit: cover;
+  }
+  
+  .card .card_title {
+    text-align: center;
+    border-radius: 0px 0px 40px 40px;
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size: 18px;
+    margin-top: -80px;
+    height: 40px;
+  }
+  
+  .card:hover {
+    transform: scale(0.9, 0.9);
+    box-shadow: 5px 5px 30px 15px rgba(0,0,0,0.25), 
+      -5px -5px 30px 15px rgba(0,0,0,0.22);
+      
+  }
+  
+  .title-white {
+    color: white;
+  }
+
+  
+  .title-black {
+    color: black;
+  }
+  
+  @media all and (max-width: 500px) {
+    .card-list {
+      /* On small screens, we are no longer using row direction but column */
+      flex-direction: column;
+    }
+  }
+  
+  .bg-primary{
+    background-color: #3256A4;
+    color: white;
+  }
+  /*
+  .card {
+    margin: 30px auto;
+    width: 300px;
+    height: 300px;
+    border-radius: 40px;
+    background-image: url('https://i.redd.it/b3esnz5ra34y.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-repeat: no-repeat;
+  box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.22);
+    transition: 0.4s;
+  }
+  */
+
+  .popup{
+    background-color: transparent;
+  }
+
+  .tooltip-marker{
+    margin: 80px 0px;
+    // width: 130px;
+    // height: 15px;
+    border-radius: 40px;
+    box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.22);
+    // cursor: pointer;
+    transition: 0.1s;    
+  }
+
+  .tooltip-line{
+    // margin: 80px 0px;
+    // width: 130px;
+    // height: 15px;
+    border-radius: 40px;
+    box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.22);
+    // cursor: pointer;
+    transition: 0.1s;    
+  }
+
+
+  kbd {
+    font-family:Monospace;
+    padding:2px 2px;
+    background:#eee;
+    border:3px solid #bbb;
+    border-top-width:1px;
+    border-bottom:3px solid #777;
+  }

@@ -3,10 +3,12 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { LeafletComponent } from './components/leaflet/leaflet.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LeafletComponent
   ],
   imports: [
     BrowserModule,
