@@ -90,11 +90,6 @@ private data= [
       let datalines = res['lines']
       this.reDrawLines(datalines)
     }
-   
-    
-    
-    
-
 
     },
     err=>console.log(err))
