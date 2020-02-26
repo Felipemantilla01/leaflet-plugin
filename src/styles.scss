@@ -121,3 +121,26 @@
     border-top-width:1px;
     border-bottom:3px solid #777;
   }
+
+  .line{
+    stroke:red;
+    stroke-width: 10px;
+    animation-name: example;
+    animation-duration: 4s;
+  }
+
+  @keyframes example {
+    // from {stroke: red;}
+    // to {stroke: yellow;}
+    0%{
+      
+    }
+  }
+
+  .div {
+    width: 100px;
+    height: 100px;
+    background-color: red;
+    animation-name: example;
+    animation-duration: 4s;
+  }

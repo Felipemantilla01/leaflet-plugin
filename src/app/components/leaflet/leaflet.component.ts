@@ -228,7 +228,7 @@ private data= [
   drawLine(){
     //console.log('Cache', this.cache)
 
-    this.lines[this.cache.line.id] = L.polyline([this.firstPoint, this.secondPoint], {color: 'red'}).addTo(this.workArea)
+    this.lines[this.cache.line.id] = L.polyline([this.firstPoint, this.secondPoint], {className: 'line'}).addTo(this.workArea)
     .bindTooltip("Click para eliminar", {
       className:'tooltip-line',
       direction:'bottom'
