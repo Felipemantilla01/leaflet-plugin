@@ -233,21 +233,40 @@ private data= [
       className:'tooltip-line',
       direction:'bottom'
     })
-    .on('click', (event)=>{
+    .on('click', (event)=>{ //delete the line 
       
       let lineToDelete =event.target
+      let keys = Object.keys(this.lines) //obtenemos las key existentes en el JSON 
 
-      lineToDelete.remove()
+      keys.forEach(key => { //verificamos para cada key si la linea almacenada ahi hace match con la linea a eliminar 
+        if (this.lines[key] === lineToDelete) {
+          //console.log(this.lines)
 
-      
-     
-      //
+          let markers = key.split('-') //obtenemos los marker vinculador a la linea a ser eliminada 
+          markers.forEach(markerKey => { // recorremos cada marker vinculado
 
+            let linesOn = this.lines.on[markerKey] // obtenemos las lineas viculadas al marker
+            linesOn.forEach((element, index) => { //recorremos cada linea vinculada
+
+              if (element.line.id === key) { // si la linea vinculada tiene id igual a la linea a ser elminada
+                //console.log(linesOn, index)     
+                this.lines.on[markerKey].splice(index, 1) // removemos el objecto del array en el indice encontrado 
+                //console.warn(linesOn, index)
+              }
+            });
+          });          
+
+          //delete this.lines.on
+          delete this.lines[key] //eliminamos la linea del structure
+          lineToDelete.remove() // eliminarmos la linea visualmente
+          //console.log(this.lines)
+        }
+      });
     })
 
 
     if(this.lines.on[this.cache.firstPoint.marker]){
-      console.log(`lines on ${this.cache.firstPoint.marker} exist?`, true)
+      //console.log(`lines on ${this.cache.firstPoint.marker} exist?`, true)
       this.lines.on[this.cache.firstPoint.marker].push(
         {
           line: {
@@ -259,7 +278,7 @@ private data= [
         }
       )
     }else{
-      console.log(`lines on ${this.cache.firstPoint.marker} exist?`, false)
+      //console.log(`lines on ${this.cache.firstPoint.marker} exist?`, false)
       this.lines.on[this.cache.firstPoint.marker] = [
         {
           line: {
@@ -274,7 +293,7 @@ private data= [
 
 
     if(this.lines.on[this.cache.secondPoint.marker]){
-      console.log(`lines on ${this.cache.secondPoint.marker} exist?`, true)
+      //console.log(`lines on ${this.cache.secondPoint.marker} exist?`, true)
       this.lines.on[this.cache.secondPoint.marker].push(
         {
           line: {
@@ -286,7 +305,7 @@ private data= [
         }
       )
     }else{
-      console.log(`lines on ${this.cache.secondPoint.marker} exist?`, false)      
+      //console.log(`lines on ${this.cache.secondPoint.marker} exist?`, false)      
       this.lines.on[this.cache.secondPoint.marker] = [
         {
           line: {
@@ -298,7 +317,7 @@ private data= [
       ]
     }
 
-    console.warn(this.lines)
+    //console.warn(this.lines)
 
   }
   getFirstPoint(markerId:string){
