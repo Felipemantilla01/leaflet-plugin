@@ -10,6 +10,9 @@ export class AppComponent implements AfterViewInit{
   title = 'leaflet-plugin';
   markers
   lines
+  progress:number = 5
+
+
 constructor(
   private _fetchData : FetchDataService
 ){
@@ -38,6 +41,15 @@ guardarMapa($event){
     err=>console.log(err)
   )
 
+}
+
+incrementProgress(){
+  this.progress+=10;
+  console.log(this.progress)
+  if(this.progress>100){
+    this.progress=10
+  }
+  
 }
 
 

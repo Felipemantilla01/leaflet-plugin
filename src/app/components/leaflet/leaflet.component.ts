@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, Output, EventEmitter, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, AfterViewInit, Output, EventEmitter, Input, OnChanges, SimpleChanges, OnInit } from '@angular/core';
 import * as L from 'leaflet'
 import { FetchDataService } from 'src/app/services/fetch-data.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -22,11 +22,12 @@ export interface Icache {
 })
 
 
-export class LeafletComponent implements AfterViewInit, OnChanges{
+export class LeafletComponent implements AfterViewInit, OnChanges, OnInit{
 
 @Output() guardar = new EventEmitter<any>()
 @Input('markers') InputMarkers:any
 @Input('lines') InputLines:any
+@Input('progress') Progress:number
 
 /** @Variables_de_marcadores : deben venir de un servicio que se encargue de obtener los procesos */
 // private data= [
@@ -39,6 +40,9 @@ export class LeafletComponent implements AfterViewInit, OnChanges{
 //   {title:'mantilla # 3', img:'https://media.giphy.com/media/10SvWCbt1ytWCc/giphy.gif', id:'proceso_3', lat:500 , lng:500},
 //   {title:'proceso # 4', img:'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAMAAACahl6sAAAA6lBMVEX///+Mxj8bQHU6ws8nXKv+/v/8/vr7/v79/vzy9Pf5+vv6/ff3+/GQyEX4+/P1/P3o+Pm93pDx+OfJ7vLZ8/ZJx9JXy9br8PeazVfY7L5r0dvl8tSr1XLM1ODg5eze9fd+1+CT3eR+ns0zZbCu5uuv13rU6rjf78q224Wfz1+quMxBYIwnSnydrcTZ3+gyU4LS3e5skMaTrdXp9NpfhsG+zubH46FBcLXN5qtUfr3D4Zupvt5/lLJthaa2wtNSbpa96u/F1OmuwuBYgb6XsddKdriEo886a7NfeZ6GmrZxiKlHZY+gr8am5Olfn5lnAAALi0lEQVR4nN1daVvaShhlFQhSqMjihlB3RandrK1arN2s1///d25IEJLJvNtkQqrnW30U5nTmnHeZSSaTsYtGc3ewPrb8oYvH6nrexXraw4iL1XbeQz3tgcTD9pRGezvtkcRCvT+lsZr2SGKh9PgiaGSaLY9Gq5n2QOLhaVXtpj2QmGj6NPrP3KtK/ZdgVW7oaL2IVZXxzardSHscMVFffxnTsd16EdORGXvTMUh7GLEx8Hg88xDouq4nj/Yzjx2uzL1Md1BMexxxUW+9iGWVaUx4tJ69W2UaXjlbSnsYsdF4Ga7r8xgrP3R+fOxV0hiNOTweah34dqfgYuf869tnw2aic1XmxV+FAC7f3XbSGZsEE99Vo2DnZ0HB93QGJ0CpHbWrjyqNQuGfn5Gim5f0wz9y3kR5FFIZnAT9iO12LjQ8ztMZHR+7ER63GhqFwsd0hsfGqsqj+E7LI55Eqgebe+9jjZNCXeXhfNDzKJjnxC6L7AS1z8txhwui2FZ4dH4DPN4YfkN5w2fhY3OjHH/QOgwUv3oL0DCVyMrrrILapySmZVWJH99BHiYSqa51VRoejg5sT0u91Q7yCCclYeyIP3zlUMvCx+sVeyxcrLeCeUnxHOYhlUj54AihMUF3rWqNRzMfzBOdS4RH4VbywdX9GkHDw6ElQ66HyvNKJEkMTYjAfJe/cFj407K/ZIFI/zHwD9B2PYG85X8qKo0IjizwWA1uN3d2EB7nDp/GnoRGtmbDioMFCMqDX4esbNJjD+HAAo/dQGHbQ2hcsAOIcDZcvLbAox7ITHrIfLBVviymke3aiIsBoWM8uIlJNZKKMGAjKDbmm4OIPrjLaumTAY3svgUemTGHB9et1ljhT8WeDR6NWYpVgePHV95nvddnhhRqNkJhZrawHF117oEZBA007sNKejKLIMW7ePIofzakkf1sg8ecCJjv8uSxYbaqXGxa4TETCNBmKBR+caJH1XRVuQJ5ZZWIppvog5WUmHmVjw0rPJ4AJiYcmS9ThRMGG6nJHBUggOxwZG4s8gmO7JbsQEF4wdgLWYkzHdms3TYK0Gi4ZNhVrOnIZtes8tD3dwt3NI9Y6nCN10YNMkdFz+Octt21OCy6+3Z8dwYgotM7B1VpDRiE5WbWBF+1POgi6r157OiuWckSw+gY8uD3eVQktKegbWGRvcRXxir/ktB2gnZhkTw2DJdVzUoTTgetY5HrynBZda133ufQbUlRvmvoVl27QSMM3V7OB4LHitGyOrKb5KrQFLdUXmIUBBOdjYy2CLkgeJjII2kamWI0ed/B890lA3nU1pKT+BSaXUK8/lg2qMs/JWW4c2gmBK8HDZKSQ8uJoRZRheBtOLnMj+xnhjpELAsP6OISqpa0xqeIxJBLNICIW+xfkheHD7Uht4MZb1nat1rQqnLhqBNyhvyy1HZrdmtxFKrUMaEvCZP2PXv7/zSUAherbF/Jwkct2bRKgbKyfiMCEYbB14sSuQ/FsxCByHjUkj0bF0W4+f4D/sVlUTg/XOx0ZJRo+BP+PRGPRYXAAMISgVPFVxIem4s0qyk6vIUl8isrW8xSBLV+Af5WVcCju7BQHkKwFAEdqyyIg4fy6ol/zghBoJ0F5rwSHvKUpHOVG15txX4YJeC+4H8MP7+SL6vedc7H6PQs1szMt3bAzU5+3r4nDR69P7kgvh33jInMHqX4DRUh/DpKut+v0PBxfWO2ymbFCHRi9IBLQ5oidnQ0/FV2vyVfZU+tUsh6V7g8urLmeuUvRMPHyWlPRuaJCNA2YQf0TZHrOqc4DR9/JR95h04I23i/SL4zczPk8MiJlH+HKoR7XFeUlJydsGjkriQfOj0hAJzW32fykMi8ck1T8DCUacQnoq/T3/No1CRR8D8mjVxuS8RjunOote4qT+gSu+KuKhffZDx8jegbDrzM5IhfezhXbBq5nDQsfgC9lycQge1u8bzKx6mQh5+i6LITXiTcY/NwwECuw0j8ON0kafyl+XmZVUodsr9HNB25HNbt1OMHsLJYO2vsQ28O13OnEMV0H9/1hQhrYbF5CKdDGkI83BYKd9GfshYWl0fpXkYjl7uR85g0HzTRkFODcHl0+LFjCmkI8b9GJ5FlizxupDRyOaMnmR1dWGeEQqZfOUTZoYM4hPjQvCRgg+bBfDyiM5LzGBm+TubDpfoThtKZ8dxgWZmEEB/vIu0sOjc54nVLxG41wbUhj8yt2vBdIpPeLitPdL6Z8MgZN7d6aj+LtF7eA489A3m4AhFWIQE4CpElcmGxtqK2TGicmNNwoTyMR04Iq7vLLwTneDCV+RTheFimFPKJ85mSCsoSDdfrQ/+iDsxwAois9LBEI5MJB3YihnQZxuuIk6sYEg8gVItRjROGYVWkdjU0SXYpJkRHjrFZ2xHWHrl7KxtWCqo4D0bGeyak8SeZ91rhUmc8BiXkYUccGuD5Oy0QYRhMZFVNgK8sOhLKeJyY77NRQAsR+gFUGY//EqOBb3vWyJRXxOMh0ZfXYekJ6bwinRuWs0xgPQdyYfUENEbJqcMDJhHKsSRx8Cops3oCksFTW+gVAY+kYscc8JFe6mUlgjzxZAGvQIUzX2qTkF+eXy3ildTGSud34WwluijKIBFit5Nd1w4TdqspwASFaI+yA+HDgt4QDBLBrbfD5XG9qFdrQ0TwCWEbVrLBPAioo4UrhLupthCZ+wDEjlvWMZNH8lEwAH3OiDYWmRkW166arfag2YitJW192MX+osQTyJCXszf8y1ry+bhstLkWeoKJt3EwYtluaZAPYcLGkIi2qYXVU7wShMdj3Mpr0H40ub9MZ1uY1B1WK47Fo76uo6G7SIAFTfqLFYashcXiMYZo5FsmPHSVFbKyWI41ZPCAp8NwQjSJPPZaUY5jcfyqCdPItwzNK3JaGfEs1pYtHT+m964BML43Sz0eC6cnDqe4peN5o43xyBtHE/VUEFzicpR+TH4ftqziTIjao4MlUmHwuCe/bYDzMJ8QN5aE9A7vIzB2Cf9Q34XLw8Uj9QkYQuEd7FszJmREda/quDziTYiL4LtUwcyXoRDKeBvanMTahGRCzgWZlkPzoAqpbYpG/MuHAy1gqFqnyynqhP4qzSP+tVPzsAi9OoOMIZRACNu1MiGZgAcDROj0nYjoHB427gGbPf8CECE7i0THhLGuLF3P/fSotF4jpNRP8AYvh0ff0j15G5hrka1F/GBJg6axbu+6P79+15dVVFTHHatOxg+791p7hzn0Z5ooz0Idq0TG84Hl1uomlDRS6Qme8yLVoD8d1m9L96xLV+kSEhmiSn+k1JHAHauTRFgnEiLPQnMTyrCSuUSy2tV2g/B9tiG2wimhjxPh4THRGDCudVQhhECSuyu2ehTdHCniKwuzLLh95cG6zANYir5VCo/rWAyppzUfE5QjL6PA3RfLFvHKdpwgiwnKqnGhREbIJ+GpyQIuvVUyR5QIlvaiSm8nSmGK8OJCNYKsLLy2TeNSaIwIEtXRCUnlNmWkeY08r4ZbViq3WyMpCiIRNMlK53prJGlEmtZocpLOtemI2mGt4967wNEHAT9VAW9PodnJOvhnyQLuBsFE0KjeX9zYw3iQE0ElspBoqAO4DQoSKaISsdPDMgHkwKDYSziR/gLHHgZQJYL2SxBJPPUFARw3AzfbiKUVa7cwHhyt4OEsnuzKWWwuylDUdrLBbSpq29NFe5wSF92JAXBtMTaovHkZ7I6bxsebTKF7hQ5owGSndIbHFMy4EvFhcE+atSeSz7fGqWT07qzcKE4M9rWoZukE/SQ7QiQqx6EDaGAsofTeHqcW4Gfo3Qfaj2DzF8uA27vps/DROZ6tsXuocq8Dk9Jv/issfDhn9/4iG4F7b6Wmks/HOEuaLCpnp5OZeUCK3vp2c/fx8XF3vNr4tyYigmLl7Obq2328t8X+Q6j0ehWnWEzgWaT/AbKmAttIurg9AAAAAElFTkSuQmCC', id:'proceso_4', lat:500 , lng:500}
 // ]
+
+
+hola='25%'
 
 
   markersBasic=[]// json for sendInfo to the backend
@@ -79,8 +83,12 @@ export class LeafletComponent implements AfterViewInit, OnChanges{
   constructor(
     private _fetchData : FetchDataService,
     private _snackBar:MatSnackBar
-  ) { }
+  ) {}
 
+  ngOnInit(){
+    // let bar: any = document.getElementsByClassName('bar')[0]
+    // bar.style.width = `${this.Progress}%`
+  }
   ngOnChanges(changes: SimpleChanges){
     if(changes['InputLines'] || changes['InputMarkers']){
       if(!!this.InputLines && !!this.InputMarkers){
@@ -93,7 +101,12 @@ export class LeafletComponent implements AfterViewInit, OnChanges{
 
         this.reDrawLines(this.InputLines)
 
-      }
+      }      
+    }
+
+    if(changes['progress']){
+      // let bar:any = document.getElementsByClassName('bar')[0]
+      // bar.style.width = `${this.Progress}%`
     }
     
   }
@@ -148,6 +161,11 @@ export class LeafletComponent implements AfterViewInit, OnChanges{
 
    let leflet:any = document.getElementsByClassName('leaflet-control-attribution')[0]
    leflet.style.display='none'
+
+   /**progress bar*/
+  
+
+
   //  console.log(leflet)
   }
 

@@ -2,4 +2,9 @@
 (guardar)="guardarMapa($event)"
 [markers]="markers"
 [lines]="lines"
+[progress]="progress"
 ></app-leaflet>
+
+<button mat-fab (click)="incrementProgress()">
+    <mat-icon>add</mat-icon>
+</button>
