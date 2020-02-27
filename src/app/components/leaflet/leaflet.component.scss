@@ -1,11 +1,12 @@
 
 .map-container {
+    background-image: url("https://www.histamar.es/wp-content/uploads/2018/03/1065.jpg");
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    margin: 30px 150px 30px 30px;
+    margin: 30px 100px 30px 30px;
   }
   
   .map-frame {
@@ -23,5 +24,6 @@
     position:fixed;
     top:40px;
     right:20px;
+    border: double rgb(26, 1, 116) 1px;
 }
 
