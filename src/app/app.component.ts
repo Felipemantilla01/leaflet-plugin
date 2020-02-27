@@ -10,7 +10,7 @@ export class AppComponent implements AfterViewInit{
   title = 'leaflet-plugin';
   markers
   lines
-  progress:number = 5
+  progress:number = 25
 
 
 constructor(

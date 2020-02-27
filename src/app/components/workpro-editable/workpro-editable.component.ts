@@ -2,6 +2,7 @@ import { Component, AfterViewInit, Output, EventEmitter, Input, OnChanges, Simpl
 import * as L from 'leaflet'
 import { FetchDataService } from 'src/app/services/fetch-data.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 export interface Icache {
 
   firstPoint:{
@@ -14,15 +15,14 @@ export interface Icache {
   }
 }
 
-
 @Component({
-  selector: 'app-leaflet',
-  templateUrl: './leaflet.component.html',
-  styleUrls: ['./leaflet.component.scss']
+  selector: 'workpro-editable',
+  templateUrl: './workpro-editable.component.html',
+  styleUrls: ['./workpro-editable.component.scss']
 })
 
 
-export class LeafletComponent implements AfterViewInit, OnChanges, OnInit{
+export class WorkproEditableComponent implements AfterViewInit, OnChanges, OnInit{
 
 @Output() guardar = new EventEmitter<any>()
 @Input('markers') InputMarkers:any
@@ -81,7 +81,8 @@ export class LeafletComponent implements AfterViewInit, OnChanges, OnInit{
 
   constructor(
     private _fetchData : FetchDataService,
-    private _snackBar:MatSnackBar
+    private _snackBar:MatSnackBar,
+    private _router:Router
   ) {}
 
   ngOnInit(){
@@ -185,11 +186,7 @@ export class LeafletComponent implements AfterViewInit, OnChanges, OnInit{
     <div class="card_title title-white">
       <p>${marker.title}</p>
     </div>
-    <div class="card_button ">
-      <button class="mat-mini-fab" title="ver proceso">
-      <i class="material-icons icon ">visibility</i>
-      </button>
-    </div>
+
   </div>
   `,
     
@@ -466,6 +463,10 @@ export class LeafletComponent implements AfterViewInit, OnChanges, OnInit{
     lines:[],
     on:{}
   }
+
+  setTimeout(() => {
+    this._router.navigate(['/workpro'])
+  }, 1000);
 
   }
 
