@@ -1,6 +1,7 @@
 import { Component, AfterViewInit, Output, EventEmitter, Input, OnChanges, SimpleChanges } from '@angular/core';
 import * as L from 'leaflet'
 import { FetchDataService } from 'src/app/services/fetch-data.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 export interface Icache {
 
   firstPoint:{
@@ -76,7 +77,8 @@ export class LeafletComponent implements AfterViewInit, OnChanges{
   
 
   constructor(
-    private _fetchData : FetchDataService
+    private _fetchData : FetchDataService,
+    private _snackBar:MatSnackBar
   ) { }
 
   ngOnChanges(changes: SimpleChanges){
@@ -122,7 +124,7 @@ export class LeafletComponent implements AfterViewInit, OnChanges{
     }else{
       if(this.firstPoint){
         
-        this.temporalLine = L.polyline([this.firstPoint, cursorLatLng], {color: 'black'}).addTo(this.workArea)
+        this.temporalLine = L.polyline([this.firstPoint, cursorLatLng], {className:'line'}).addTo(this.workArea)
         .bindTooltip("<kbd>Esc</kbd> para cancelar", {
           className:'tooltip-line',
           direction:'center'
@@ -421,11 +423,13 @@ export class LeafletComponent implements AfterViewInit, OnChanges{
     /**Exite un arreglo null? si es asi eliminarlo para no almacenarlo en la base de datos  */
     if(this.linesBasic.on['null']){delete this.linesBasic.on['null']}
 
-    // console.log(this.linesBasic)
+     
 
     /** Enviando los datos al componente padre */
 
     this.guardar.emit({markers:this.markersBasic, lines:this.linesBasic})
+
+    this.openSnackBar('Guardando...', 'Aceptar')
 
     
    
@@ -477,5 +481,12 @@ export class LeafletComponent implements AfterViewInit, OnChanges{
     
     
   }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 1500,
+    });
+  }
+
 
 }

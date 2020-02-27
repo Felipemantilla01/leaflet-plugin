@@ -7,7 +7,8 @@ import { LeafletComponent } from './components/leaflet/leaflet.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FetchDataService } from './services/fetch-data.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MantillaModule } from 'mantilla'
+import { MantillaModule } from 'mantilla';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { MantillaModule } from 'mantilla'
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    MantillaModule
+    MantillaModule,
+    MatSnackBarModule
   ],
   providers: [FetchDataService],
   bootstrap: [AppComponent]
