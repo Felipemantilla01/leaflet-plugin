@@ -127,12 +127,45 @@
     stroke:red;
     stroke-width: 10px;
     stroke-dasharray: 15 15;    
-    animation: example 500ms infinite;
+    animation: example 40s infinite;
   }
 
   @keyframes example {
-     from {stroke-dashoffset:20;}
-     to {stroke-dashoffset: 0;}    
+     from {
+      stroke-dashoffset:999;
+      stroke:#8CC640
+    }
+    10%{
+      stroke:#275CAC
+    }
+    20%{
+      stroke:#40C2CF
+    }
+    30%{
+      stroke:#8CC640
+    }
+    40%{
+      stroke:#275CAC
+    }
+    50%{
+      stroke:#40C2CF
+    }
+    60%{
+      stroke:#8CC640
+    }
+    70%{
+      stroke:#275CAC
+    }
+    80%{
+      stroke:#40C2CF
+    }
+    90%{
+      stroke:#8CC640
+    }
+     to {
+      stroke-dashoffset: 0;
+      stroke:green
+    }
   }
 
   

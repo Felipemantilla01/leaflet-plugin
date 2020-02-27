@@ -1,6 +1,5 @@
 import { Component, AfterViewInit } from '@angular/core';
 import * as L from 'leaflet'
-import { setInterval } from 'timers';
 import { FetchDataService } from 'src/app/services/fetch-data.service';
 export interface Icache {
 
