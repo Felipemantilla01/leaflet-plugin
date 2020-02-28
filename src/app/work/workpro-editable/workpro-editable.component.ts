@@ -257,20 +257,31 @@ export class WorkproEditableComponent implements AfterViewInit, OnChanges, OnIni
       if(this.lines.on[id]){ //proceso para mover las lineas asociadas al marker 
         this.lines.on[id].forEach(element => {        
         
-          let LatLngs = element.line.latlngs
-          LatLngs[element.point] = markerLatLang
-  
-          this.lines[element.line.id].setLatLngs(LatLngs)
-  
-          /** actualizacion de coordenadas en los demas componentes */
-          let otherMarker = element.line.id.replace('-','')
-          otherMarker = otherMarker.replace(id,'')
-  
-          this.lines.on[otherMarker].forEach(otherElement => {
-            if(otherElement.line.id===element.line.id){
-              otherElement.line.latlngs = LatLngs
-            }
-          });        
+
+
+          let keysArray = element.line.id.split('-')
+          
+          if(keysArray[0]===keysArray[1]){
+            this.lines[element.line.id].setLatLng(markerLatLang)
+            // console.log(this.lines[element.line.id])
+
+          }else{
+            let LatLngs = element.line.latlngs
+            LatLngs[element.point] = markerLatLang
+    
+            this.lines[element.line.id].setLatLngs(LatLngs)
+    
+            /** actualizacion de coordenadas en los demas componentes */
+            let otherMarker = element.line.id.replace('-','')
+            otherMarker = otherMarker.replace(id,'')
+    
+            this.lines.on[otherMarker].forEach(otherElement => {
+              if(otherElement.line.id===element.line.id){
+                otherElement.line.latlngs = LatLngs
+              }
+            });  
+          }
+
         });
       }
 
@@ -284,7 +295,15 @@ export class WorkproEditableComponent implements AfterViewInit, OnChanges, OnIni
   drawLine(){
     //console.log('Cache', this.cache)
 
-    this.lines[this.cache.line.id] = L.polyline([this.firstPoint, this.secondPoint], {className: 'line'}).addTo(this.workArea)
+    if(this.firstPoint===this.secondPoint){
+      this.lines[this.cache.line.id] = L.circle(this.firstPoint, {radius: 85, className:'circle'}).addTo(this.workArea);
+    }
+    else{
+      this.lines[this.cache.line.id] = L.polyline([this.firstPoint, this.secondPoint], {className: 'line'}).addTo(this.workArea)
+    }
+    this.lines[this.cache.line.id]
+
+    
     .bindTooltip("Click para eliminar", {
       className:'tooltip-line',
       direction:'bottom'
@@ -423,9 +442,19 @@ export class WorkproEditableComponent implements AfterViewInit, OnChanges, OnIni
         //console.log(this.lines[lineKey]._latlngs)
         let line:any //= this.lines[lineKey]
         
-        line={
+        let keysArray = lineKey.split('-')
+        if(keysArray[0]===keysArray[1]){
+          console.log('hola')
+          line={
+            id: lineKey,
+          _latlngs:  this.lines[lineKey]._latlng
+        }
+
+        }else{
+          line={
             id: lineKey,
           _latlngs:  this.lines[lineKey]._latlngs
+        }
         }
         
 
@@ -435,20 +464,14 @@ export class WorkproEditableComponent implements AfterViewInit, OnChanges, OnIni
     });
 
     
-
-
     /**Exite un arreglo null? si es asi eliminarlo para no almacenarlo en la base de datos  */
     if(this.linesBasic.on['null']){delete this.linesBasic.on['null']}
-
-     
 
     /** Enviando los datos al componente padre */
 
     this.guardar.emit({markers:this.markersBasic, lines:this.linesBasic})
 
-    this.openSnackBar('Guardando...', 'Aceptar')
-
-    
+    this.openSnackBar('Guardando...', 'Aceptar')    
    
 
   //  this._fetchData.sendLines(this.markersBasic).subscribe(
@@ -474,9 +497,20 @@ export class WorkproEditableComponent implements AfterViewInit, OnChanges, OnIni
 
     datalines.lines.forEach(line => {
       
-      this.cache.line.id = line.id
-      this.firstPoint = line._latlngs[0]
-      this.secondPoint = line._latlngs[1]
+
+      let keysArray = line.id.split('-')
+
+      if (keysArray[0] === keysArray[1]) {
+        this.cache.line.id = line.id
+        this.firstPoint = line._latlngs
+        this.secondPoint = line._latlngs
+      } else {
+        this.cache.line.id = line.id
+        this.firstPoint = line._latlngs[0]
+        this.secondPoint = line._latlngs[1]
+      }
+
+      
       
       // console.warn(`creating line ${line.id}`)
       this.drawLine()

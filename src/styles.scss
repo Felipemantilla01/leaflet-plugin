@@ -18,7 +18,7 @@
   }
   
   .card {
-    margin: -70px;
+    margin:-18px 13px 24px -76px;
     width: 150px;
     height: 150px;
     border-radius: 20px;
@@ -155,10 +155,16 @@
   }
 
   .line{
-    stroke:red;
     stroke-width: 7px;
     stroke-dasharray: 15 10;    
     animation: example 40s infinite;
+  }
+
+  .circle{
+    stroke-width: 7px;
+    stroke-dasharray: 15 10;    
+    animation: example 40s infinite;
+    fill: none;
   }
 
   @keyframes example {

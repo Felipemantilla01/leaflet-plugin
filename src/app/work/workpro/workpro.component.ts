@@ -170,7 +170,13 @@ export class WorkproComponent implements AfterViewInit, OnChanges{
   }
   drawLine(){
     //console.log('Cache', this.cache)
-    this.lines[this.cache.line.id] = L.polyline([this.firstPoint, this.secondPoint], {className: 'line'}).addTo(this.work)    
+    if(this.firstPoint===this.secondPoint){
+      this.lines[this.cache.line.id] = L.circle(this.firstPoint, {radius: 85, className:'circle'}).addTo(this.work);
+    }
+    else{
+      this.lines[this.cache.line.id] = L.polyline([this.firstPoint, this.secondPoint], {className: 'line'}).addTo(this.work)
+    }
+    this.lines[this.cache.line.id]
     //console.warn(this.lines)
 
   }
@@ -181,10 +187,17 @@ export class WorkproComponent implements AfterViewInit, OnChanges{
     //this.lines[this.cache.line.id] = L.polyline([this.firstPoint, this.secondPoint], {className: 'line'}).addTo(this.work)
 
     datalines.lines.forEach(line => {
-      
-      this.cache.line.id = line.id
-      this.firstPoint = line._latlngs[0]
-      this.secondPoint = line._latlngs[1]      
+      let keysArray = line.id.split('-')
+
+      if (keysArray[0] === keysArray[1]) {
+        this.cache.line.id = line.id
+        this.firstPoint = line._latlngs
+        this.secondPoint = line._latlngs
+      } else {
+        this.cache.line.id = line.id
+        this.firstPoint = line._latlngs[0]
+        this.secondPoint = line._latlngs[1]
+      }
       // console.warn(`creating line ${line.id}`)
       this.drawLine()
         
