@@ -1,1 +1,15 @@
-<p>tester works!</p>
+<app-work
+[nodos]="nodos"
+[lineas]="lineas"
+[progreso]="progreso"
+
+(guardar)="guardarMapa($event)"
+(abrirProceso)="abrirProceso($event)"
+>
+</app-work>
+
+
+
+<button mat-fab (click)="incrementProgress()">
+    <mat-icon>add</mat-icon>
+</button>

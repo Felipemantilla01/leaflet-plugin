@@ -1,8 +1,5 @@
 import { Component, AfterViewInit, Output, EventEmitter, Input, OnChanges, SimpleChanges, OnInit } from '@angular/core';
 import * as L from 'leaflet'
-import { FetchDataService } from 'src/app/services/fetch-data.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
 export interface Icache {
 
   firstPoint:{
@@ -22,7 +19,7 @@ export interface Icache {
 })
 
 
-export class WorkproComponent implements AfterViewInit, OnChanges, OnInit{
+export class WorkproComponent implements AfterViewInit, OnChanges{
 
 @Input('markers') InputMarkers:any
 @Input('lines') InputLines:any
@@ -38,7 +35,7 @@ export class WorkproComponent implements AfterViewInit, OnChanges, OnInit{
   }
   // json for sendInfo to the backend
   
-  workArea
+  work
   markers={}
   lines={
     on:{
@@ -64,16 +61,8 @@ export class WorkproComponent implements AfterViewInit, OnChanges, OnInit{
   }
   temporalLine  
 
-  constructor(
-    private _fetchData : FetchDataService,
-    private _snackBar:MatSnackBar,
-    private _router: Router
-  ) {}
+  constructor() {}
 
-  ngOnInit(){
-    // let bar: any = document.getElementsByClassName('bar')[0]
-    // bar.style.width = `${this.Progress}%`
-  }
   ngOnChanges(changes: SimpleChanges){
     if(changes['InputLines'] || changes['InputMarkers']){
       if(!!this.InputLines && !!this.InputMarkers){
@@ -92,20 +81,21 @@ export class WorkproComponent implements AfterViewInit, OnChanges, OnInit{
   }
 
   initMap(){
-    this.workArea = L.map('map', {
+    
+    this.work = L.map('map-work', {
       crs:L.CRS.Simple,
       minZoom:0,
       maxZoom:0,
-      dragging:true
+      dragging:false
    })
 
    var imageUrl = 'https://www.vandersandengroup.lt/sites/default/files/styles/brick_thumbnail_2014/public/images_brick_joint/vds_1_350a0_gh_rainbow-wapper_white_02.jpg?itok=mJ5mD6eI'
    var bounds = [[0,0], [1000 ,1000]];
    var image = L.tileLayer(imageUrl, bounds, {
      dragg:false
-   }).addTo(this.workArea);
+   }).addTo(this.work);
 
-   this.workArea.fitBounds(bounds);
+   this.work.fitBounds(bounds);
    
    /** eliminando attribution leaflet */
 
@@ -148,7 +138,7 @@ export class WorkproComponent implements AfterViewInit, OnChanges, OnInit{
 
 
 
-    .addTo(this.workArea)
+    .addTo(this.work)
     
     /** tooltip */
     .bindTooltip("Click para abrir Proceso", {
@@ -166,7 +156,7 @@ export class WorkproComponent implements AfterViewInit, OnChanges, OnInit{
   }
   drawLine(){
     //console.log('Cache', this.cache)
-    this.lines[this.cache.line.id] = L.polyline([this.firstPoint, this.secondPoint], {className: 'line'}).addTo(this.workArea)    
+    this.lines[this.cache.line.id] = L.polyline([this.firstPoint, this.secondPoint], {className: 'line'}).addTo(this.work)    
     //console.warn(this.lines)
 
   }
@@ -174,7 +164,7 @@ export class WorkproComponent implements AfterViewInit, OnChanges, OnInit{
   reDrawLines(datalines){
     this.lines.on = datalines.on
     //console.log(datalines.lines)
-    //this.lines[this.cache.line.id] = L.polyline([this.firstPoint, this.secondPoint], {className: 'line'}).addTo(this.workArea)
+    //this.lines[this.cache.line.id] = L.polyline([this.firstPoint, this.secondPoint], {className: 'line'}).addTo(this.work)
 
     datalines.lines.forEach(line => {
       

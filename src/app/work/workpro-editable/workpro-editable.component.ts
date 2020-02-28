@@ -1,8 +1,6 @@
 import { Component, AfterViewInit, Output, EventEmitter, Input, OnChanges, SimpleChanges, OnInit } from '@angular/core';
 import * as L from 'leaflet'
-import { FetchDataService } from 'src/app/services/fetch-data.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
 export interface Icache {
 
   firstPoint:{
@@ -81,9 +79,7 @@ export class WorkproEditableComponent implements AfterViewInit, OnChanges, OnIni
   
 
   constructor(
-    private _fetchData : FetchDataService,
     private _snackBar:MatSnackBar,
-    private _router:Router
   ) {}
 
   ngOnInit(){
@@ -93,8 +89,8 @@ export class WorkproEditableComponent implements AfterViewInit, OnChanges, OnIni
   ngOnChanges(changes: SimpleChanges){
     if(changes['InputLines'] || changes['InputMarkers']){
       if(!!this.InputLines && !!this.InputMarkers){
-        console.log(this.InputMarkers)
-        console.log(this.InputLines)
+        // console.log(this.InputMarkers)
+        // console.log(this.InputLines)
 
         this.InputMarkers.forEach(element => {
             this.addNewMarker(element,element.id)      
@@ -120,7 +116,7 @@ export class WorkproEditableComponent implements AfterViewInit, OnChanges, OnIni
       crs:L.CRS.Simple,
       minZoom:0,
       maxZoom:0,
-      dragging:true
+      dragging:false
    })
 
    var imageUrl = 'https://www.vandersandengroup.lt/sites/default/files/styles/brick_thumbnail_2014/public/images_brick_joint/vds_1_350a0_gh_rainbow-wapper_white_02.jpg?itok=mJ5mD6eI'
@@ -173,7 +169,7 @@ export class WorkproEditableComponent implements AfterViewInit, OnChanges, OnIni
   addNewMarker(marker,id:string){
     /** CREANDO EL ICONO PARA EL MARCADOR */
 
-    console.warn(`creating marker ${marker.id}`)
+    // console.warn(`creating marker ${marker.id}`)
     this.markersBasic.push(marker)
 
     var icon = L.divIcon({    
@@ -482,7 +478,7 @@ export class WorkproEditableComponent implements AfterViewInit, OnChanges, OnIni
       this.firstPoint = line._latlngs[0]
       this.secondPoint = line._latlngs[1]
       
-      console.warn(`creating line ${line.id}`)
+      // console.warn(`creating line ${line.id}`)
       this.drawLine()
 
         

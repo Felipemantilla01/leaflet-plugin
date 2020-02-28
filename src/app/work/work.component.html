@@ -1,8 +1,8 @@
 
-<div *ngIf="editable; else noEditable">
+<!-- <div *ngIf="editable; else noEditable"> -->
 
 
-<workpro-editable 
+<workpro-editable [style.display]="workproEditDisplay"
 (guardar)="saveMap($event)"
 [markers]="markers"
 [lines]="lines"
@@ -10,12 +10,12 @@
 (accion)="changeEnvironment($event)"
 ></workpro-editable>
 
-
+<!-- 
 </div>
 
-<ng-template #noEditable>
+<ng-template #noEditable> -->
 
-<workpro
+<workpro [style.display]="workproDisplay"
 (abrirProceso)="openProcess($event)"
 [markers]="markers"
 [lines]="lines"
@@ -23,9 +23,6 @@
 (accion)="changeEnvironment($event)"
 ></workpro>
 
-</ng-template>
+<!-- </ng-template> -->
 
 
-<button mat-fab (click)="incrementProgress()">
-    <mat-icon>add</mat-icon>
-</button>
