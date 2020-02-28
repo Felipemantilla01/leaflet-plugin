@@ -1,5 +1,6 @@
 import { Component, AfterViewInit, Output, EventEmitter, Input, OnChanges, SimpleChanges, OnInit } from '@angular/core';
 import * as L from 'leaflet'
+import { makeBindingParser } from '@angular/compiler';
 export interface Icache {
 
   firstPoint:{
@@ -100,7 +101,8 @@ export class WorkproComponent implements AfterViewInit, OnChanges{
       crs:L.CRS.Simple,
       minZoom:0,
       maxZoom:0,
-      dragging:false
+      dragging:false,
+      doubleClickZoom:false
    })
 
    var imageUrl = 'https://www.vandersandengroup.lt/sites/default/files/styles/brick_thumbnail_2014/public/images_brick_joint/vds_1_350a0_gh_rainbow-wapper_white_02.jpg?itok=mJ5mD6eI'
@@ -113,7 +115,7 @@ export class WorkproComponent implements AfterViewInit, OnChanges{
    
    /** eliminando attribution leaflet */
 
-   let leflet:any = document.getElementsByClassName('leaflet-control-attribution')[0]
+   let leflet:any = document.getElementsByClassName('leaflet-control-attribution')[1]
    leflet.style.display='none'
 
    /**progress bar*/
@@ -123,6 +125,21 @@ export class WorkproComponent implements AfterViewInit, OnChanges{
 
   addNewMarker(marker,id:string){
     /** CREANDO EL ICONO PARA EL MARCADOR */
+    
+    var activeClass
+    var currentClass
+    // console.log(marker)
+    if(marker.active){
+     activeClass = 'active' 
+    }else{
+      activeClass = 'inactive' 
+    }
+    if(marker.current){
+      currentClass = 'current'
+    }else{
+      currentClass = ''
+    }
+
 
     // console.warn(`creating marker ${marker.id}`)
     this.markersBasic.push(marker)
@@ -132,9 +149,9 @@ export class WorkproComponent implements AfterViewInit, OnChanges{
       iconSize:null,
       className:'text', //card?      
       html:`
-      <div class="card 1">      
+      <div class="card ${activeClass} ${currentClass}">      
       
-    <div class="card_image"> <img src="${marker.img}" /> </div>
+    <div class="card_image"> <img src="${marker.img}" alt="No image"/> </div>
     <div class="card_title title-white">
       <p>${marker.title}</p>
     </div>
@@ -155,16 +172,28 @@ export class WorkproComponent implements AfterViewInit, OnChanges{
     .addTo(this.work)
     
     /** tooltip */
-    .bindTooltip("Click para abrir Proceso", {
-      className:'tooltip-marker',
-      direction:'bottom'
-    })
+    if(marker.active){
+      this.markers[id].bindTooltip("Click para abrir Proceso", {
+        className:'tooltip-marker',
+        direction:'bottom'
+      })      
+    }else{
+      this.markers[id].bindTooltip("Proceso bloqueado", {
+        className:'tooltip-marker',
+        direction:'bottom'
+      })
+      
+    }
     
     // //.openTooltip()
     /**events */    
-    .on('click', (event)=>{
+    this.markers[id].on('click', (event)=>{
+
+      if(marker.active){
+        this.abrirProceso.emit({nodo:marker})
+      }
       //console.log(marker)
-      this.abrirProceso.emit({nodo:marker})
+      
     })
 
   }

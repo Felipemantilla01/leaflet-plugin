@@ -116,7 +116,8 @@ export class WorkproEditableComponent implements AfterViewInit, OnChanges, OnIni
       crs:L.CRS.Simple,
       minZoom:0,
       maxZoom:0,
-      dragging:false
+      dragging:false,
+      doubleClickZoom:false
    })
 
    var imageUrl = 'https://www.vandersandengroup.lt/sites/default/files/styles/brick_thumbnail_2014/public/images_brick_joint/vds_1_350a0_gh_rainbow-wapper_white_02.jpg?itok=mJ5mD6eI'
@@ -488,6 +489,10 @@ export class WorkproEditableComponent implements AfterViewInit, OnChanges, OnIni
     this.accion.emit(false)
   }, 1000);
 
+  }
+
+  cancel(){
+    this.accion.emit(false)
   }
 
   reDrawLines(datalines){
