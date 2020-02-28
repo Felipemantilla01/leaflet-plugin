@@ -9,10 +9,12 @@ import { FetchDataService } from './services/fetch-data.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MantillaModule } from 'mantilla';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { WorkproEditableComponent } from './components/workpro-editable/workpro-editable.component';
-import { WorkproComponent } from './components/workpro/workpro.component';
+import { WorkproEditableComponent } from './workpro/work/workpro-editable/workpro-editable.component';
+import { WorkproComponent } from './workpro/work/workpro/workpro.component';
 import { WorkproMgmtComponent } from './management/workpro-mgmt/workpro-mgmt.component';
 import { WorkproEditMgmtComponent } from './management/workpro-edit-mgmt/workpro-edit-mgmt.component';
+import { WorkComponent } from './workpro/work/work.component';
+import { TesterComponent } from './tester/tester.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { WorkproEditMgmtComponent } from './management/workpro-edit-mgmt/workpro
     WorkproEditableComponent,
     WorkproComponent,
     WorkproMgmtComponent,
-    WorkproEditMgmtComponent
+    WorkproEditMgmtComponent,
+    WorkComponent,
+    TesterComponent
   ],
   imports: [
     BrowserModule,

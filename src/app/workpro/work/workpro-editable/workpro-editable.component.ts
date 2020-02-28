@@ -28,6 +28,7 @@ export class WorkproEditableComponent implements AfterViewInit, OnChanges, OnIni
 @Input('markers') InputMarkers:any
 @Input('lines') InputLines:any
 @Input('progress') Progress:number
+@Output() accion = new EventEmitter<any>()
 
 /** @Variables_de_marcadores : deben venir de un servicio que se encargue de obtener los procesos */
 // private data= [
@@ -465,7 +466,7 @@ export class WorkproEditableComponent implements AfterViewInit, OnChanges, OnIni
   }
 
   setTimeout(() => {
-    this._router.navigate(['/workpro'])
+    this.accion.emit(false)
   }, 1000);
 
   }

@@ -24,11 +24,11 @@ export interface Icache {
 
 export class WorkproComponent implements AfterViewInit, OnChanges, OnInit{
 
-@Output() guardar = new EventEmitter<any>()
 @Input('markers') InputMarkers:any
 @Input('lines') InputLines:any
 @Input('progress') Progress:number
 @Output() abrirProceso = new EventEmitter<any>()
+@Output() accion = new EventEmitter<any>()
 
 
   markersBasic=[]// json for sendInfo to the backend
@@ -160,7 +160,7 @@ export class WorkproComponent implements AfterViewInit, OnChanges, OnInit{
     /**events */    
     .on('click', (event)=>{
       //console.log(marker)
-      this.abrirProceso.emit(marker)
+      this.abrirProceso.emit({nodo:marker})
     })
 
   }
@@ -204,7 +204,8 @@ export class WorkproComponent implements AfterViewInit, OnChanges, OnInit{
   }
 
   editar(){
-this._router.navigate(['workpro/editar'])
+// this._router.navigate(['workpro/editar'])
+    this.accion.emit(true)
   }
 
 
