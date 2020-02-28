@@ -28,6 +28,7 @@ export class WorkproComponent implements AfterViewInit, OnChanges{
 @Output() accion = new EventEmitter<any>()
 
 
+  colorByProgress:string
   markersBasic=[]// json for sendInfo to the backend
   linesBasic={
     lines:[],
@@ -74,7 +75,20 @@ export class WorkproComponent implements AfterViewInit, OnChanges{
 
         this.reDrawLines(this.InputLines)
       }      
-    }    
+    }
+    if(changes['Progress']){
+      
+      if(this.Progress<50){        
+        this.colorByProgress=`rgb(255,${this.Progress*4+40},51)`
+      }
+      else{        
+        this.colorByProgress=`rgb(${300-this.Progress*2},255,51)`
+      }
+
+      console.log(this.colorByProgress)
+
+      
+    }  
   }
   ngAfterViewInit() {
     this.initMap() //inicializamos el mapa 
