@@ -34,9 +34,7 @@ export class TesterComponent implements AfterViewInit {
     this._fetchData.sendData($event).subscribe(
       res=>console.log(res),
       err=>console.log(err)
-    )
-
-    
+    )  
   }
   
   incrementProgress(){

@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewInit, Output, Input, EventEmitter } from '@
 import { FetchDataService } from 'src/app/services/fetch-data.service';
 
 @Component({
-  selector: 'app-work',
+  selector: 'modelador',
   templateUrl: './work.component.html',
   styleUrls: ['./work.component.scss']
 })
@@ -18,9 +18,6 @@ export class WorkComponent implements AfterViewInit {
   @Input('nodos') markers:any
   @Input('lineas') lines:any
   @Input('progreso') progress:number
-
-
-
 
   ngAfterViewInit(){
     this.workproEditDisplay='none'
