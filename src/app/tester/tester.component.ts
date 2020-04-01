@@ -41,7 +41,7 @@ export class TesterComponent implements AfterViewInit {
   
   incrementProgress(){
     this.progreso+=10;
-    console.log(this.progreso)
+    //console.log(this.progreso)
     if(this.progreso>100){
       this.progreso=10
     }    

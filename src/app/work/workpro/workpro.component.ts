@@ -86,7 +86,7 @@ export class WorkproComponent implements AfterViewInit, OnChanges{
         this.colorByProgress=`rgb(${300-this.Progress*2},255,51)`
       }
 
-      console.log(this.colorByProgress)
+      //console.log(this.colorByProgress)
 
       
     }  
@@ -203,7 +203,7 @@ export class WorkproComponent implements AfterViewInit, OnChanges{
       this.lines[this.cache.line.id] = L.circle(this.firstPoint, {radius: 85, className:'circle'}).addTo(this.work);
     }
     else{
-      this.lines[this.cache.line.id] = L.polyline([this.firstPoint, this.secondPoint], {className: 'line'}).addTo(this.work)
+      this.lines[this.cache.line.id] = L.polyline([this.firstPoint, this.secondPoint], {offset:15,className: 'line'}).addTo(this.work)
     }
     this.lines[this.cache.line.id]
     //console.warn(this.lines)
