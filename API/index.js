@@ -50,7 +50,7 @@ app.get('/data', async(req,res)=>{
 
 app.post('/data', async (req,res)=>{
 
-	console.log(req.body)
+	//console.log(req.body)
     /** asignacion de variables */
     let markers={
         identity:'',
@@ -62,8 +62,27 @@ app.post('/data', async (req,res)=>{
     let lines = req.body.lines
     lines.identity = 'lines'
 
-    console.log(markers)
-    console.log(lines)
+    let update = await markers.markers.filter(marker=>{
+        if(marker.action=='update' || marker.action=='insert'){
+            // console.log(marker)
+            marker.action='update'
+            return(marker)
+        }
+    })
+    //  console.log(update)
+
+     markers.markers = update
+
+    // let updates = markers.filter(marker=>{
+    //     marker.action=='update'
+    // })
+    // let inserts = markers.filter(marker=>{
+    //     marker.action=='insert'
+    // })
+
+    // console.log(updates)
+    // console.log(inserts)
+    
 
 
     /** manejo de la base de datos, actualizando markers */

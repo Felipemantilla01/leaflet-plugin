@@ -25,7 +25,7 @@ export class WorkproComponent implements AfterViewInit, OnChanges{
 @Input('markers') InputMarkers:any
 @Input('lines') InputLines:any
 @Input('progress') Progress:number
-@Output() abrirProceso = new EventEmitter<any>()
+@Output() abrirEtapa = new EventEmitter<any>()
 @Output() accion = new EventEmitter<any>()
 
 
@@ -173,12 +173,12 @@ export class WorkproComponent implements AfterViewInit, OnChanges{
     
     /** tooltip */
     if(marker.active){
-      this.markers[id].bindTooltip("Click para abrir Proceso", {
+      this.markers[id].bindTooltip("Click para abrir etapa", {
         className:'tooltip-marker',
         direction:'bottom'
       })      
     }else{
-      this.markers[id].bindTooltip("Proceso bloqueado", {
+      this.markers[id].bindTooltip("Etapa bloqueada", {
         className:'tooltip-marker',
         direction:'bottom'
       })
@@ -190,7 +190,7 @@ export class WorkproComponent implements AfterViewInit, OnChanges{
     this.markers[id].on('click', (event)=>{
 
       if(marker.active){
-        this.abrirProceso.emit({nodo:marker})
+        this.abrirEtapa.emit({nodo:marker})
       }
       //console.log(marker)
       

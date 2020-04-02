@@ -1,6 +1,7 @@
 import { Component, AfterViewInit, Output, EventEmitter, Input, OnChanges, SimpleChanges, OnInit, ElementRef } from '@angular/core';
 import * as L from 'leaflet'
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { v4 as uuidv4 } from 'uuid';
 
 require('../../libs/offset')
 require('../../libs/curve')
@@ -257,7 +258,7 @@ export class WorkproEditableComponent implements AfterViewInit, OnChanges, OnIni
       })
 
       .on('contextmenu', (event)=>{
-        console.log(event.target)
+        // console.log(event.target)
         // event.target.bindPopup(
         //   `
         //   <button class='btn-eliminar'><strong> Eliminar</strong></button>
@@ -275,19 +276,32 @@ export class WorkproEditableComponent implements AfterViewInit, OnChanges, OnIni
             if(this.markers[key]===event.target){
                             
               this.markersBasic.forEach((marker,index)=>{
-                if(marker.id===key){
-                  // console.log(marker,index)
-                  this.markersBasic[index].action = 'delete'
-                  // console.log(this.markersBasic)
-                  console.log()
-                  console.log(this.lines)
-                  event.target.remove()
+                if(marker.id===key){                  
+                  
+                  
+                  if(this.lines.on[key]){
+                    if(this.lines.on[key].length == 0){
+                      this.markersBasic[index].action = 'delete'                                  
+                      event.target.remove()                      
+                    }
+                    else{
+                        alert('Para eliminar la etapa debe eliminar primero los enlaces asociados.')
+                    }
+                  }else{
+                      alert('Para eliminar la etapa debe eliminar primero los enlaces asociados.')
+                  }
 
-                  this.lines.on[key].forEach(element => {
-                    console.log(element.line.id)
-                    this.lines[element.line.id].remove()
-                    console.log(this.linesBasic)
-                  });
+
+                  // if(this.lines.on[key]==un || this.lines.on[key]==[]){
+                  //   console.log(this.lines.on[key])
+                  //   alert('Para eliminar la etapa debe eliminar primero los enlaces asociados.')
+                  // }
+
+                  // this.lines.on[key].forEach(element => {
+                  //   console.log(element.line.id)
+                  //   this.lines[element.line.id].remove()
+                  //   console.log(this.linesBasic)
+                  // });
                   
                   
                 }
@@ -558,11 +572,12 @@ export class WorkproEditableComponent implements AfterViewInit, OnChanges, OnIni
     let number = Object.keys(this.markersBasic).length
     // console.log(this.markersBasic)
     marker.title = prompt('Titulo de la etapa',`Etapa # ${number+1}`)
-    let id
     if(!!marker.title){
       marker.id = `etapa_${number+1}`
-      console.log(marker)
-      this.addNewMarker(marker,marker.id)
+      let id = uuidv4()
+      marker.id = id.replace(/-/g,'')            
+      // console.log(marker)
+       this.addNewMarker(marker,marker.id)
     }
 
   }

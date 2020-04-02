@@ -45,7 +45,7 @@ export class TesterComponent implements AfterViewInit {
     }    
   }
 
-  abrirProceso($event){
+  abrirEtapa($event){
     console.log($event)
   }
 

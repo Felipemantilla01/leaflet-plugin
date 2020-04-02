@@ -14,7 +14,7 @@ export class WorkComponent implements AfterViewInit {
 
   @Input() editable:boolean=false
   @Output() guardar = new EventEmitter<any>()
-  @Output() abrirProceso = new EventEmitter<any>()
+  @Output() abrirEtapa = new EventEmitter<any>()
   @Input('nodos') markers:any
   @Input('lineas') lines:any
   @Input('progreso') progress:number
@@ -37,7 +37,7 @@ export class WorkComponent implements AfterViewInit {
     this.workproDisplay = $event ? 'none': 'inline'    
   }
   openProcess($event){
-    this.abrirProceso.emit($event)
+    this.abrirEtapa.emit($event)
   }
   
 }
