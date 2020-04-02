@@ -325,4 +325,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     }
 }
 
-
+.btn-eliminar{
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  background: red;
+  color: white;
+  cursor: pointer;
+}

@@ -38,7 +38,7 @@ app.get('/data', async(req,res)=>{
         let lines = await db.collection('map').findOne({identity:'lines'})
         
         
-        console.log(markers)
+        //console.log(markers)
         res.status(200).send({markers, lines})
 
         
@@ -50,7 +50,7 @@ app.get('/data', async(req,res)=>{
 
 app.post('/data', async (req,res)=>{
 
-
+	console.log(req.body)
     /** asignacion de variables */
     let markers={
         identity:'',

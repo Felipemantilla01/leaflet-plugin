@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, Output, EventEmitter, Input, OnChanges, SimpleChanges, OnInit } from '@angular/core';
+import { Component, AfterViewInit, Output, EventEmitter, Input, OnChanges, SimpleChanges, OnInit, ElementRef } from '@angular/core';
 import * as L from 'leaflet'
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -85,6 +85,7 @@ export class WorkproEditableComponent implements AfterViewInit, OnChanges, OnIni
 
   constructor(
     private _snackBar: MatSnackBar,
+    private elementRef:ElementRef
   ) { }
 
   ngOnInit() {
@@ -175,7 +176,7 @@ export class WorkproEditableComponent implements AfterViewInit, OnChanges, OnIni
   addNewMarker(marker, id: string) {
     /** CREANDO EL ICONO PARA EL MARCADOR */
 
-    // console.warn(`creating marker ${marker.id}`)
+    console.warn(marker)
     this.markersBasic.push(marker)
 
     var icon = L.divIcon({
@@ -255,6 +256,49 @@ export class WorkproEditableComponent implements AfterViewInit, OnChanges, OnIni
 
       })
 
+      .on('contextmenu', (event)=>{
+        console.log(event.target)
+        // event.target.bindPopup(
+        //   `
+        //   <button class='btn-eliminar'><strong> Eliminar</strong></button>
+        //   `
+        // ).openPopup();
+
+        let confirmation = confirm('¿Está seguro de eliminar la etapa?')
+        if(confirmation){
+          // event.target.remove()
+          // console.log(this.markersBasic)
+          // console.log(this.markers)
+
+          Object.keys(this.markers).forEach(key=>{
+            
+            if(this.markers[key]===event.target){
+                            
+              this.markersBasic.forEach((marker,index)=>{
+                if(marker.id===key){
+                  // console.log(marker,index)
+                  this.markersBasic[index].action = 'delete'
+                  // console.log(this.markersBasic)
+                  console.log()
+                  console.log(this.lines)
+                  event.target.remove()
+
+                  this.lines.on[key].forEach(element => {
+                    console.log(element.line.id)
+                    this.lines[element.line.id].remove()
+                    console.log(this.linesBasic)
+                  });
+                  
+                  
+                }
+
+              })
+
+            }
+          })
+        }
+
+      })
       .on('drag', () => {
         let markerLatLang = this.markers[id].getLatLng()//this 'id' reference id of the marker
 
@@ -290,6 +334,8 @@ export class WorkproEditableComponent implements AfterViewInit, OnChanges, OnIni
         /** actualizar coordenadas en el basic por si se envia la informacion hacia el backend  */
 
       })
+
+      
   }
   drawLine() {
     //console.log('Cache', this.cache)
@@ -317,10 +363,6 @@ export class WorkproEditableComponent implements AfterViewInit, OnChanges, OnIni
         direction: 'bottom'
       })
       .on('click', (event) => { //delete the line 
-
-
-
-
 
         let lineToDelete = event.target
         let keys = Object.keys(this.lines) //obtenemos las key existentes en el JSON 
@@ -503,8 +545,26 @@ export class WorkproEditableComponent implements AfterViewInit, OnChanges, OnIni
   }
 
   addMarker(){
-    let number = Object.keys(this.markers).length
-    prompt('Titulo de la etapa','Etapa # ')
+    let marker = {
+      title:null,
+      id:null,
+      lat:500,
+      lng:500,
+      img:'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOMAAADeCAMAAAD4tEcNAAAAA1BMVEX///+nxBvIAAAASElEQVR4nO3BMQEAAADCoPVPbQZ/oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA+A8W4AAH7AbJ4AAAAAElFTkSuQmCC',
+      active:false,
+      current:false,
+      action:'insert'
+    }
+    let number = Object.keys(this.markersBasic).length
+    // console.log(this.markersBasic)
+    marker.title = prompt('Titulo de la etapa',`Etapa # ${number+1}`)
+    let id
+    if(!!marker.title){
+      marker.id = `etapa_${number+1}`
+      console.log(marker)
+      this.addNewMarker(marker,marker.id)
+    }
+
   }
 
   reDrawLines(datalines) {
@@ -552,6 +612,10 @@ export class WorkproEditableComponent implements AfterViewInit, OnChanges, OnIni
     });
 
 
+  }
+
+  deleteMarker(){
+    console.log('delete marker')
   }
 
   openSnackBar(message: string, action: string) {
