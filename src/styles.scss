@@ -66,9 +66,10 @@
     font-family: sans-serif;
     font-weight: bold;
     font-size: 22px;
-    margin-top: -203px;
+    margin-top: -113px;
     height: 40px;
   }
+
 
   .card .card_button{
 
@@ -177,14 +178,14 @@
   }
 
   .line{
-    stroke:#8CC640;
+    stroke:#3F51B5;
     stroke-width: 4px;
     stroke-dasharray: 15 6;    
     animation: example 40s infinite;
   }
 
   .circle{
-    stroke:#8CC640;
+    stroke:#3F51B5;
     stroke-width: 4px;
     stroke-dasharray: 15 10;    
     animation: example 40s infinite;

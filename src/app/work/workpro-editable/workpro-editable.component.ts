@@ -452,7 +452,7 @@ export class WorkproEditableComponent implements AfterViewInit, OnChanges, OnIni
 
         let keysArray = lineKey.split('-')
         if (keysArray[0] === keysArray[1]) {
-          console.log('hola')
+          // console.log('hola')
           line = {
             id: lineKey,
             _latlngs: this.lines[lineKey]._latlng
@@ -500,6 +500,11 @@ export class WorkproEditableComponent implements AfterViewInit, OnChanges, OnIni
 
   cancel() {
     this.accion.emit(false)
+  }
+
+  addMarker(){
+    let number = Object.keys(this.markers).length
+    prompt('Titulo de la etapa','Etapa # ')
   }
 
   reDrawLines(datalines) {

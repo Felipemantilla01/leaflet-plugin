@@ -32,9 +32,9 @@ export class WorkComponent implements AfterViewInit {
   }
   changeEnvironment($event){
     // console.log($event)
+    !$event ? document.location.reload():console.log(true)
     this.workproEditDisplay = $event ? 'inline': 'none'
     this.workproDisplay = $event ? 'none': 'inline'    
-    !$event ? document.location.reload():console.log(true)
   }
   openProcess($event){
     this.abrirProceso.emit($event)
