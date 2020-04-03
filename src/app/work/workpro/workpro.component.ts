@@ -99,17 +99,43 @@ export class WorkproComponent implements AfterViewInit, OnChanges{
     
     this.work = L.map('map-work', {
       crs:L.CRS.Simple,
-      minZoom:0,
+
+      minZoom:-1,
       maxZoom:0,
-      dragging:false,
+      dragging:true,
       doubleClickZoom:false
    })
+   .on('zoomend', ()=>{
+    var currentZoom = this.work.getZoom();
+    currentZoom = currentZoom.toString()
 
-   var imageUrl = 'https://www.vandersandengroup.lt/sites/default/files/styles/brick_thumbnail_2014/public/images_brick_joint/vds_1_350a0_gh_rainbow-wapper_white_02.jpg?itok=mJ5mD6eI'
+    let cards = document.getElementsByClassName('card-work')
+    var arr = Array.prototype.slice.call( cards )
+    
+    arr.forEach(card => {
+      card.classList.remove('zoom-1')
+      card.classList.remove('zoom-2')
+    });
+
+    // this.work.setZoom(0)
+
+    arr.forEach(card => {
+      card.classList.add(`zoom${currentZoom}`)
+    });
+
+    // console.log(cards)
+  })
+
+   var imageUrl = 'https://fotomuralesmexico.com/wp-content/uploads/2018/07/FONDO-GRIS-TRANSPARENTE-CON-EL-PATR%C3%93N-BLANCO-EN-ESTILO-BARROCO.-VECTOR-ILUSTRACI%C3%93N-RETRO.-IDEAL-PARA-IMPRIMIR-EN-TELA-O-PAPEL-300x300.jpg'
    var bounds = [[0,0], [1000 ,1000]];
    var image = L.tileLayer(imageUrl, bounds, {
-     dragg:false
+     dragg:false,
+     noWrap: true,
+    continuousWorld: true,
+
    }).addTo(this.work);
+
+
 
    this.work.fitBounds(bounds);
    
@@ -149,7 +175,7 @@ export class WorkproComponent implements AfterViewInit, OnChanges{
       iconSize:null,
       className:'text', //card?      
       html:`
-      <div class="card ${activeClass} ${currentClass}">      
+      <div class="card ${activeClass} ${currentClass} card-work zoom-1">      
       
     <div class="card_image"> <img src="${marker.img}" alt="No image"/> </div>
     <div class="card_title title-white">

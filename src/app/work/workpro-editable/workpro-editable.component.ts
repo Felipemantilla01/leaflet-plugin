@@ -116,18 +116,41 @@ export class WorkproEditableComponent implements AfterViewInit, OnChanges, OnIni
   }
   ngAfterViewInit() {
     this.initMap() //inicializamos el mapa 
+
+    
   }
 
   initMap() {
     this.workArea = L.map('map', {
       crs: L.CRS.Simple,
-      minZoom: 0,
+      minZoom: -1,
       maxZoom: 0,
-      dragging: false,
+      dragging: true,
       doubleClickZoom: false
+    })                                                                                               
+    .on('zoomend', ()=>{
+      var currentZoom = this.workArea.getZoom();
+      currentZoom = currentZoom.toString()
+
+      let cards = document.getElementsByClassName('card-work-editable')
+      var arr = Array.prototype.slice.call( cards )
+      
+      arr.forEach(card => {
+        card.classList.remove('zoom-1')
+        card.classList.remove('zoom-2')
+      });
+
+      arr.forEach(card => {
+        card.classList.add(`zoom${currentZoom}`)
+      });
+
+     
+
+      // console.log(cards)
     })
 
-    var imageUrl = 'https://www.vandersandengroup.lt/sites/default/files/styles/brick_thumbnail_2014/public/images_brick_joint/vds_1_350a0_gh_rainbow-wapper_white_02.jpg?itok=mJ5mD6eI'
+
+    var imageUrl = 'https://fotomuralesmexico.com/wp-content/uploads/2018/07/FONDO-GRIS-TRANSPARENTE-CON-EL-PATR%C3%93N-BLANCO-EN-ESTILO-BARROCO.-VECTOR-ILUSTRACI%C3%93N-RETRO.-IDEAL-PARA-IMPRIMIR-EN-TELA-O-PAPEL-300x300.jpg'
     var bounds = [[0, 0], [1000, 1000]];
     var image = L.tileLayer(imageUrl, bounds, {
       dragg: false
@@ -185,7 +208,7 @@ export class WorkproEditableComponent implements AfterViewInit, OnChanges, OnIni
       iconSize: null,
       className: 'text', //card?      
       html: `
-      <div class="card 1">      
+      <div class="card 1 card-work-editable zoom-1">      
       
     <div class="card_image"> <img src="${marker.img}" /> </div>
     <div class="card_title title-white">
@@ -285,10 +308,11 @@ export class WorkproEditableComponent implements AfterViewInit, OnChanges, OnIni
                       event.target.remove()                      
                     }
                     else{
-                        alert('Para eliminar la etapa debe eliminar primero los enlaces asociados.')
+                        alert('Para eliminar la etapa deben eliminar primero los enlaces asociados.')
                     }
                   }else{
-                      alert('Para eliminar la etapa debe eliminar primero los enlaces asociados.')
+                    this.markersBasic[index].action = 'delete'                                  
+                    event.target.remove()  
                   }
 
 
@@ -533,6 +557,7 @@ export class WorkproEditableComponent implements AfterViewInit, OnChanges, OnIni
 
     /** Enviando los datos al componente padre */
 
+    // console.log(this.markersBasic, this.linesBasic)
     this.guardar.emit({ markers: this.markersBasic, lines: this.linesBasic })
 
     this.openSnackBar('Guardando...', 'Aceptar')
@@ -559,6 +584,10 @@ export class WorkproEditableComponent implements AfterViewInit, OnChanges, OnIni
   }
 
   addMarker(){
+  
+    this.workArea.setZoom(0)
+    // this.workArea.setView([500,500])
+
     let marker = {
       title:null,
       id:null,
