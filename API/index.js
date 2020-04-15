@@ -63,9 +63,9 @@ app.post('/data', async (req,res)=>{
     lines.identity = 'lines'
 
     let update = await markers.markers.filter(marker=>{
-        if(marker.action=='update' || marker.action=='insert'){
+        if(marker.action=='update' || marker.action=='insert' || marker.action==''){
             // console.log(marker)
-            marker.action='update'
+            marker.action=''
             return(marker)
         }
     })

@@ -123,7 +123,7 @@ export class WorkproEditableComponent implements AfterViewInit, OnChanges, OnIni
   initMap() {
     this.workArea = L.map('map', {
       crs: L.CRS.Simple,
-      minZoom: -1,
+      minZoom: 0,
       maxZoom: 0,
       dragging: true,
       doubleClickZoom: false
@@ -208,7 +208,7 @@ export class WorkproEditableComponent implements AfterViewInit, OnChanges, OnIni
       iconSize: null,
       className: 'text', //card?      
       html: `
-      <div class="card 1 card-work-editable zoom-1">      
+      <div class="card 1 card-work-editable ">      
       
     <div class="card_image"> <img src="${marker.img}" /> </div>
     <div class="card_title title-white">
@@ -252,6 +252,7 @@ export class WorkproEditableComponent implements AfterViewInit, OnChanges, OnIni
         if (!!this.firstPoint && !!this.secondPoint) {
           /** create line and save in the marker component  */
 
+          console.log(this.markersBasic)
           //console.log('creating line')
           this.drawLine()
           this.temporalLine.remove()

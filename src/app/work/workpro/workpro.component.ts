@@ -100,7 +100,7 @@ export class WorkproComponent implements AfterViewInit, OnChanges{
     this.work = L.map('map-work', {
       crs:L.CRS.Simple,
 
-      minZoom:-1,
+      minZoom:0,
       maxZoom:0,
       dragging:true,
       doubleClickZoom:false
@@ -175,7 +175,7 @@ export class WorkproComponent implements AfterViewInit, OnChanges{
       iconSize:null,
       className:'text', //card?      
       html:`
-      <div class="card ${activeClass} ${currentClass} card-work zoom-1">      
+      <div class="card ${activeClass} ${currentClass} card-work ">      
       
     <div class="card_image"> <img src="${marker.img}" alt="No image"/> </div>
     <div class="card_title title-white">

@@ -8,45 +8,51 @@ import { FetchDataService } from '../services/fetch-data.service';
 })
 export class TesterComponent implements AfterViewInit {
 
-  editable:boolean=false
+  editable: boolean = false
   nodos
   lineas
-  progreso:number = 10
+  progreso: number = 10
 
   constructor(
-    private _fetchData : FetchDataService
-  ){}
+    private _fetchData: FetchDataService
+  ) { }
 
-  async ngAfterViewInit(){
-    await this._fetchData.getData().subscribe(res=>{      
+  async ngAfterViewInit() {
+    await this._fetchData.getData().subscribe(res => {
       this.nodos = res['markers']['markers']//obtenemos los marcadores
       // console.log(this.markers)
       this.lineas = res['lines']
       // console.log(this.lines)
     },
-    err=>console.log(err))    
-  }
-  
-  guardarMapa($event){
-    console.log('Guardando mapa....')
-    // console.log($event)
-  
-    this._fetchData.sendData($event).subscribe(
-      res=>console.log(res),
-      err=>console.log(err)
-    )  
-  }
-  
-  incrementProgress(){
-    this.progreso+=10;
-    //console.log(this.progreso)
-    if(this.progreso>100){
-      this.progreso=10
-    }    
+      err => console.log(err))
   }
 
-  abrirEtapa($event){
+  guardarMapa($event) {
+    console.log('Guardando mapa....')
+    // console.log($event)
+
+    this._fetchData.sendData($event).subscribe(
+      res => console.log(res),
+      err => console.log(err)
+    )
+  }
+
+  incrementProgress() {
+    this.progreso += 10;
+    //console.log(this.progreso)
+    if (this.progreso > 100) {
+      this.progreso = 10
+    }
+  }
+
+  abrirEtapa($event) {
     console.log($event)
+
+    let message = `
+    ACTION : Abrir modal de etapa
+    TITLE : ${$event.nodo.title.toUpperCase()}
+    ID : ${$event.nodo.id.toUpperCase()}`
+    alert(message)
   }
 
 

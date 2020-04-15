@@ -13,9 +13,11 @@
 
 
   <div class="bar-container">
-    
     <div class="progress mat-elevation-z23">
-      <div class="bar shadow leaf" [style.width]="Progress+'%'" [style.backgroundColor]='colorByProgress'></div>
+      
+      <div class="bar shadow leaf per" [style.width]="Progress+'%'" [style.backgroundColor]='colorByProgress'>
+        {{Progress}}%
+      </div>
 
     </div>
   </div>
