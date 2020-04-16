@@ -70,11 +70,26 @@ export class WorkproComponent implements AfterViewInit, OnChanges{
       if(!!this.InputLines && !!this.InputMarkers){
         // console.log(this.InputMarkers)
         // console.log(this.InputLines)
+
+        /** eliminar marcadores existentes */
+        let keys = Object.keys(this.markers)
+        // console.log(keys)
+        keys.forEach(key => {
+          this.markers[key].remove()
+        });
+        /**fin de eliminar marcadores existentes */
+
         this.InputMarkers.forEach(element => {
             this.addNewMarker(element,element.id)      
         });
 
-        this.reDrawLines(this.InputLines)
+        let linesKeys = Object.keys(this.lines)
+        
+        if(!(linesKeys.length>1)){
+          this.reDrawLines(this.InputLines)
+        }
+
+        
       }      
     }
     if(changes['Progress']){
@@ -169,6 +184,7 @@ export class WorkproComponent implements AfterViewInit, OnChanges{
 
     // console.warn(`creating marker ${marker.id}`)
     this.markersBasic.push(marker)
+
 
     var icon = L.divIcon({    
  

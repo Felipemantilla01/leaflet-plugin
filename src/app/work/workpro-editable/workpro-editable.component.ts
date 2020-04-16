@@ -2,6 +2,7 @@ import { Component, AfterViewInit, Output, EventEmitter, Input, OnChanges, Simpl
 import * as L from 'leaflet'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { v4 as uuidv4 } from 'uuid';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 require('../../libs/offset')
 require('../../libs/curve')
@@ -86,7 +87,7 @@ export class WorkproEditableComponent implements AfterViewInit, OnChanges, OnIni
 
   constructor(
     private _snackBar: MatSnackBar,
-    private elementRef:ElementRef
+    private elementRef: ElementRef
   ) { }
 
   ngOnInit() {
@@ -117,7 +118,7 @@ export class WorkproEditableComponent implements AfterViewInit, OnChanges, OnIni
   ngAfterViewInit() {
     this.initMap() //inicializamos el mapa 
 
-    
+
   }
 
   initMap() {
@@ -127,27 +128,27 @@ export class WorkproEditableComponent implements AfterViewInit, OnChanges, OnIni
       maxZoom: 0,
       dragging: true,
       doubleClickZoom: false
-    })                                                                                               
-    .on('zoomend', ()=>{
-      var currentZoom = this.workArea.getZoom();
-      currentZoom = currentZoom.toString()
-
-      let cards = document.getElementsByClassName('card-work-editable')
-      var arr = Array.prototype.slice.call( cards )
-      
-      arr.forEach(card => {
-        card.classList.remove('zoom-1')
-        card.classList.remove('zoom-2')
-      });
-
-      arr.forEach(card => {
-        card.classList.add(`zoom${currentZoom}`)
-      });
-
-     
-
-      // console.log(cards)
     })
+      .on('zoomend', () => {
+        var currentZoom = this.workArea.getZoom();
+        currentZoom = currentZoom.toString()
+
+        let cards = document.getElementsByClassName('card-work-editable')
+        var arr = Array.prototype.slice.call(cards)
+
+        arr.forEach(card => {
+          card.classList.remove('zoom-1')
+          card.classList.remove('zoom-2')
+        });
+
+        arr.forEach(card => {
+          card.classList.add(`zoom${currentZoom}`)
+        });
+
+
+
+        // console.log(cards)
+      })
 
 
     var imageUrl = 'https://fotomuralesmexico.com/wp-content/uploads/2018/07/FONDO-GRIS-TRANSPARENTE-CON-EL-PATR%C3%93N-BLANCO-EN-ESTILO-BARROCO.-VECTOR-ILUSTRACI%C3%93N-RETRO.-IDEAL-PARA-IMPRIMIR-EN-TELA-O-PAPEL-300x300.jpg'
@@ -200,7 +201,7 @@ export class WorkproEditableComponent implements AfterViewInit, OnChanges, OnIni
   addNewMarker(marker, id: string) {
     /** CREANDO EL ICONO PARA EL MARCADOR */
 
-    console.warn(marker)
+    // console.warn(marker)
     this.markersBasic.push(marker)
 
     var icon = L.divIcon({
@@ -252,7 +253,14 @@ export class WorkproEditableComponent implements AfterViewInit, OnChanges, OnIni
         if (!!this.firstPoint && !!this.secondPoint) {
           /** create line and save in the marker component  */
 
-          console.log(this.markersBasic)
+
+          /** actualizando action en los marcadores asociados */
+          this.markersBasic.forEach((marker, index) => {
+            if (marker.id == this.cache.firstPoint.marker || marker.id == this.cache.secondPoint.marker) {
+              this.markersBasic[index].action = 'update'
+            }
+          })
+
           //console.log('creating line')
           this.drawLine()
           this.temporalLine.remove()
@@ -273,15 +281,12 @@ export class WorkproEditableComponent implements AfterViewInit, OnChanges, OnIni
             }
           }
 
-
-
-
         }
 
 
       })
 
-      .on('contextmenu', (event)=>{
+      .on('contextmenu', (event) => {
         // console.log(event.target)
         // event.target.bindPopup(
         //   `
@@ -290,30 +295,30 @@ export class WorkproEditableComponent implements AfterViewInit, OnChanges, OnIni
         // ).openPopup();
 
         let confirmation = confirm('¿Está seguro de eliminar la etapa?')
-        if(confirmation){
+        if (confirmation) {
           // event.target.remove()
           // console.log(this.markersBasic)
           // console.log(this.markers)
 
-          Object.keys(this.markers).forEach(key=>{
-            
-            if(this.markers[key]===event.target){
-                            
-              this.markersBasic.forEach((marker,index)=>{
-                if(marker.id===key){                  
-                  
-                  
-                  if(this.lines.on[key]){
-                    if(this.lines.on[key].length == 0){
-                      this.markersBasic[index].action = 'delete'                                  
-                      event.target.remove()                      
+          Object.keys(this.markers).forEach(key => {
+
+            if (this.markers[key] === event.target) {
+
+              this.markersBasic.forEach((marker, index) => {
+                if (marker.id === key) {
+
+
+                  if (this.lines.on[key]) {
+                    if (this.lines.on[key].length == 0) {
+                      this.markersBasic[index].action = 'delete'
+                      event.target.remove()
                     }
-                    else{
-                        alert('Para eliminar la etapa deben eliminar primero los enlaces asociados.')
+                    else {
+                      alert('Para eliminar la etapa deben eliminar primero los enlaces asociados.')
                     }
-                  }else{
-                    this.markersBasic[index].action = 'delete'                                  
-                    event.target.remove()  
+                  } else {
+                    this.markersBasic[index].action = 'delete'
+                    event.target.remove()
                   }
 
 
@@ -327,8 +332,8 @@ export class WorkproEditableComponent implements AfterViewInit, OnChanges, OnIni
                   //   this.lines[element.line.id].remove()
                   //   console.log(this.linesBasic)
                   // });
-                  
-                  
+
+
                 }
 
               })
@@ -373,8 +378,19 @@ export class WorkproEditableComponent implements AfterViewInit, OnChanges, OnIni
         /** actualizar coordenadas en el basic por si se envia la informacion hacia el backend  */
 
       })
+      .on('dragend', ()=>{
 
-      
+        this.markersBasic.forEach((marker, index)=>{
+          if(marker.id == id){
+            this.markersBasic[index].action = 'update'
+          }
+        })
+
+        console.log(this.markersBasic)
+      })
+
+
+
   }
   drawLine() {
     //console.log('Cache', this.cache)
@@ -412,6 +428,14 @@ export class WorkproEditableComponent implements AfterViewInit, OnChanges, OnIni
 
             let markers = key.split('-') //obtenemos los marker vinculador a la linea a ser eliminada 
             markers.forEach(markerKey => { // recorremos cada marker vinculado
+
+              /** actualizando action en los marcadores asociados  */
+              this.markersBasic.forEach( (marker,index)=>{
+                if(marker.id == markerKey){
+                  this.markersBasic[index].action = 'update'
+                }
+              })
+              // console.log(this.markersBasic)
 
               let linesOn = this.lines.on[markerKey] // obtenemos las lineas viculadas al marker
               linesOn.forEach((element, index) => { //recorremos cada linea vinculada
@@ -584,30 +608,30 @@ export class WorkproEditableComponent implements AfterViewInit, OnChanges, OnIni
     this.accion.emit(false)
   }
 
-  addMarker(){
-  
+  addMarker() {
+
     this.workArea.setZoom(0)
     // this.workArea.setView([500,500])
 
     let marker = {
-      title:null,
-      id:null,
-      lat:500,
-      lng:500,
-      img:'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOMAAADeCAMAAAD4tEcNAAAAA1BMVEX///+nxBvIAAAASElEQVR4nO3BMQEAAADCoPVPbQZ/oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA+A8W4AAH7AbJ4AAAAAElFTkSuQmCC',
-      active:false,
-      current:false,
-      action:'insert'
+      title: null,
+      id: null,
+      lat: 500,
+      lng: 500,
+      img: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOMAAADeCAMAAAD4tEcNAAAAA1BMVEX///+nxBvIAAAASElEQVR4nO3BMQEAAADCoPVPbQZ/oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA+A8W4AAH7AbJ4AAAAAElFTkSuQmCC',
+      active: false,
+      current: false,
+      action: 'insert'
     }
     let number = Object.keys(this.markersBasic).length
     // console.log(this.markersBasic)
-    marker.title = prompt('Titulo de la etapa',`Etapa # ${number+1}`)
-    if(!!marker.title){
-      marker.id = `etapa_${number+1}`
+    marker.title = prompt('Titulo de la etapa', `Etapa # ${number + 1}`)
+    if (!!marker.title) {
+      marker.id = `etapa_${number + 1}`
       let id = uuidv4()
-      marker.id = id.replace(/-/g,'')            
+      marker.id = id.replace(/-/g, '')
       // console.log(marker)
-       this.addNewMarker(marker,marker.id)
+      this.addNewMarker(marker, marker.id)
     }
 
   }
@@ -659,7 +683,7 @@ export class WorkproEditableComponent implements AfterViewInit, OnChanges, OnIni
 
   }
 
-  deleteMarker(){
+  deleteMarker() {
     console.log('delete marker')
   }
 

@@ -11,7 +11,7 @@ export class TesterComponent implements AfterViewInit {
   editable: boolean = false
   nodos
   lineas
-  progreso: number = 10
+  progreso: number = 5
 
   constructor(
     private _fetchData: FetchDataService
@@ -29,7 +29,7 @@ export class TesterComponent implements AfterViewInit {
 
   guardarMapa($event) {
     console.log('Guardando mapa....')
-    // console.log($event)
+    console.log($event)
 
     this._fetchData.sendData($event).subscribe(
       res => console.log(res),
@@ -38,10 +38,20 @@ export class TesterComponent implements AfterViewInit {
   }
 
   incrementProgress() {
-    this.progreso += 10;
+
+    this._fetchData.getData().subscribe(res => {
+      this.nodos = res['markers']['markers']//obtenemos los marcadores
+      // console.log(this.markers)
+      this.lineas = res['lines']
+      // console.log(this.lines)
+    },
+      err => console.log(err))
+
+
+    this.progreso += 7;
     //console.log(this.progreso)
     if (this.progreso > 100) {
-      this.progreso = 10
+      this.progreso = 3
     }
   }
 

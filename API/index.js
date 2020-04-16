@@ -50,6 +50,7 @@ app.get('/data', async(req,res)=>{
 
 app.post('/data', async (req,res)=>{
 
+    console.log(req.body)
 	//console.log(req.body)
     /** asignacion de variables */
     let markers={
