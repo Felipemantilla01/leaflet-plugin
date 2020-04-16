@@ -22,7 +22,7 @@
     margin:-30px 13px 24px -76px;
     width: 150px;
     height: 150px;
-    border-radius: 5px;
+    border-radius: 50%;
     cursor: grab;
     transition: 0.2s;
   }
@@ -50,13 +50,13 @@
   .card .card_image {
     width: inherit;
     height: inherit;
-    border-radius: 5px;
+    border-radius: 50%;
   }
   
   .card .card_image img {
     width: inherit;
     height: inherit;
-    border-radius: 5px;
+    border-radius: 50%;
     object-fit: cover;
   }
   

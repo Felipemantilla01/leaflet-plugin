@@ -1,0 +1,36 @@
+{
+    "_id" : ObjectId("5e56f1b327f9f618b86134e2"),
+    "identity" : "markers",
+    "markers" : [ 
+        {
+            "title" : "Etapa # 1",
+            "id" : "585526a1ca214a8eb4f86e211b0d2ccc",
+            "lat" : 642.983185034681,
+            "lng" : 685.004174203423,
+            "img" : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOMAAADeCAMAAAD4tEcNAAAAA1BMVEX///+nxBvIAAAASElEQVR4nO3BMQEAAADCoPVPbQZ/oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA+A8W4AAH7AbJ4AAAAAElFTkSuQmCC",
+            "active" : false,
+            "current" : false,
+            "action" : ""
+        }, 
+        {
+            "title" : "Etapa # 2",
+            "id" : "2882e5c719974bbb958b2433aa2d305f",
+            "lat" : 749.982484411126,
+            "lng" : 419.008050249458,
+            "img" : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOMAAADeCAMAAAD4tEcNAAAAA1BMVEX///+nxBvIAAAASElEQVR4nO3BMQEAAADCoPVPbQZ/oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA+A8W4AAH7AbJ4AAAAAElFTkSuQmCC",
+            "active" : false,
+            "current" : false,
+            "action" : ""
+        }, 
+        {
+            "title" : "Etapa # 3",
+            "id" : "2b75b7e64db6405f900357c924908604",
+            "lat" : 475.001751558887,
+            "lng" : 332.016696813691,
+            "img" : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOMAAADeCAMAAAD4tEcNAAAAA1BMVEX///+nxBvIAAAASElEQVR4nO3BMQEAAADCoPVPbQZ/oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA+A8W4AAH7AbJ4AAAAAElFTkSuQmCC",
+            "active" : false,
+            "current" : false,
+            "action" : ""
+        }
+    ]
+}

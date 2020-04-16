@@ -25,6 +25,7 @@ export class WorkComponent implements AfterViewInit {
   }
 
   saveMap($event){
+    // console.log($event)
     this.guardar.emit($event)
     setTimeout(() => {
       document.location.reload()
@@ -34,7 +35,6 @@ export class WorkComponent implements AfterViewInit {
     // console.log($event)
     !$event ? document.location.reload():console.log(true)
     
-
     setTimeout(()=>{
       this.workproEditDisplay = $event ? 'inline': 'none'
       this.workproDisplay = $event ? 'none': 'inline'    

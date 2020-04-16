@@ -1,6 +1,5 @@
 import { Component, AfterViewInit, Output, EventEmitter, Input, OnChanges, SimpleChanges, OnInit } from '@angular/core';
 import * as L from 'leaflet'
-import { makeBindingParser } from '@angular/compiler';
 export interface Icache {
 
   firstPoint:{
@@ -114,7 +113,6 @@ export class WorkproComponent implements AfterViewInit, OnChanges{
     
     this.work = L.map('map-work', {
       crs:L.CRS.Simple,
-
       minZoom:0,
       maxZoom:0,
       dragging:false,
