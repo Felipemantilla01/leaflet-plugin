@@ -106,6 +106,7 @@ export class WorkproEditableComponent implements AfterViewInit, OnChanges, OnIni
         keys.forEach(key => {
           this.markers[key].remove()
         });
+        this.markersBasic = []
         /**fin de eliminar marcadores existentes */
 
         this.InputMarkers.forEach(element => {
@@ -137,7 +138,7 @@ export class WorkproEditableComponent implements AfterViewInit, OnChanges, OnIni
       crs: L.CRS.Simple,
       minZoom: 0,
       maxZoom: 0,
-      dragging: true,
+      dragging: false,
       doubleClickZoom: false
     })
       .on('zoomend', () => {

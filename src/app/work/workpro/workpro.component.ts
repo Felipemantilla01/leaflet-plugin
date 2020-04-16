@@ -117,7 +117,7 @@ export class WorkproComponent implements AfterViewInit, OnChanges{
 
       minZoom:0,
       maxZoom:0,
-      dragging:true,
+      dragging:false,
       doubleClickZoom:false
    })
    .on('zoomend', ()=>{
