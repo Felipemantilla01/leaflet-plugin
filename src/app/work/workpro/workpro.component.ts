@@ -24,6 +24,7 @@ export class WorkproComponent implements AfterViewInit, OnChanges{
 @Input('markers') InputMarkers:any
 @Input('lines') InputLines:any
 @Input('progress') Progress:number
+@Input('editable') Editable:boolean
 @Output() abrirEtapa = new EventEmitter<any>()
 @Output() accion = new EventEmitter<any>()
 
@@ -62,7 +63,9 @@ export class WorkproComponent implements AfterViewInit, OnChanges{
   }
   temporalLine  
 
-  constructor() {}
+  constructor() {
+    
+  }
 
   ngOnChanges(changes: SimpleChanges){
     if(changes['InputLines'] || changes['InputMarkers']){
@@ -107,6 +110,7 @@ export class WorkproComponent implements AfterViewInit, OnChanges{
   }
   ngAfterViewInit() {
     this.initMap() //inicializamos el mapa 
+    
   }
 
   initMap(){
@@ -213,7 +217,12 @@ export class WorkproComponent implements AfterViewInit, OnChanges{
     
     /** tooltip */
     if(marker.active){
-      this.markers[id].bindTooltip("Click para abrir etapa", {
+      this.markers[id].bindTooltip(`
+      <div style='display:flex; justify-content: center; align-items: center; padding-left:20px;  padding-right:20px'>
+        <img src="../../../assets/modelador/izq.png" style='width:20px; margin-right:10px' alt="Click izquierdo para"> 
+        <p>Abrir etapa</p>
+        </div>
+      `, {
         className:'tooltip-marker',
         direction:'bottom'
       })      
@@ -240,7 +249,7 @@ export class WorkproComponent implements AfterViewInit, OnChanges{
   drawLine(){
     //console.log('Cache', this.cache)
     if(this.firstPoint===this.secondPoint){
-      this.lines[this.cache.line.id] = L.circle(this.firstPoint, {radius: 85, className:'circle'}).addTo(this.work);
+      this.lines[this.cache.line.id] = L.circle(this.firstPoint, {radius: 75, className:'circle'}).addTo(this.work);
     }
     else{
       this.lines[this.cache.line.id] = L.polyline([this.firstPoint, this.secondPoint], {offset:15,className: 'line'}).addTo(this.work)

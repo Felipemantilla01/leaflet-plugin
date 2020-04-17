@@ -12,12 +12,14 @@ export class WorkComponent implements AfterViewInit {
   workproEditDisplay='inline'
 
 
-  @Input() editable:boolean=false
+  @Input('editable') Editable:boolean
   @Output() guardar = new EventEmitter<any>()
   @Output() abrirEtapa = new EventEmitter<any>()
   @Input('nodos') markers:any
   @Input('lineas') lines:any
   @Input('progreso') progress:number
+  @Input('proceso') process:any
+
 
   ngAfterViewInit(){
     this.workproEditDisplay='none'
@@ -25,10 +27,12 @@ export class WorkComponent implements AfterViewInit {
   }
 
   saveMap($event){
+    
+    $event.process = this.process
     // console.log($event)
     this.guardar.emit($event)
     setTimeout(() => {
-      document.location.reload()
+      // document.location.reload()
     }, 1000);
   }
   changeEnvironment($event){

@@ -1,6 +1,4 @@
-
-<!-- <div *ngIf="editable; else noEditable"> -->
-
+<h3 class="work-title ">{{process.name | uppercase}}</h3>
 
 <workpro-editable [style.display]="workproEditDisplay"
 (guardar)="saveMap($event)"
@@ -10,19 +8,17 @@
 (accion)="changeEnvironment($event)"
 ></workpro-editable>
 
-<!-- 
-</div>
-
-<ng-template #noEditable> -->
-
 <workpro [style.display]="workproDisplay"
 (abrirEtapa)="openProcess($event)"
 [markers]="markers"
 [lines]="lines"
 [progress]="progress"
+[editable]='Editable'
 (accion)="changeEnvironment($event)"
 ></workpro>
 
-<!-- </ng-template> -->
+
+
+
 
 

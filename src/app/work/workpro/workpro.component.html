@@ -1,24 +1,31 @@
-
 <div class="map-container mat-elevation-z23">
-    <div class="map-frame">
-      <div id="map-work">
-  
-      </div>
-    </div>
-  </div>  
-
-  <button mat-fab title="Editar" color="primary" class="fixed-right-up mat-elevation-z23" (click)="editar()" >
-   <mat-icon>build</mat-icon>
-  </button>
-
-
-  <div class="bar-container">
-    <div class="progress mat-elevation-z23">
-      
-      <div class="bar shadow leaf per" [style.width]="Progress+'%'" [style.backgroundColor]='colorByProgress'>
-        {{Progress}}%
-      </div>
+  <div class="map-frame">
+    <div id="map-work">
 
     </div>
   </div>
+</div>
 
+<button [class.visible]='!Editable' mat-fab title="Editar" color="primary" class="fixed-right-up mat-elevation-z23"
+  (click)="editar()">
+  <mat-icon>build</mat-icon>
+</button>
+
+
+<div class="bar-container">
+  <div class="progress mat-elevation-z23">
+
+    <div class="bar shadow leaf per" [style.width]="Progress+'%'" [style.backgroundColor]='colorByProgress'>
+      {{Progress}}%
+    </div>
+
+  </div>
+</div>
+
+<div class="active lineInfoActive">
+  Activa
+</div>
+
+<div class="current lineInfoCurrent">
+  Actual
+</div>

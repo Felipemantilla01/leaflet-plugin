@@ -15,6 +15,9 @@ import { WorkproMgmtComponent } from './management/workpro-mgmt/workpro-mgmt.com
 import { WorkproEditMgmtComponent } from './management/workpro-edit-mgmt/workpro-edit-mgmt.component';
 import { WorkComponent } from './work/work.component';
 import { TesterComponent } from './tester/tester.component';
+import { DialogNodeComponent } from './work/workpro-editable/dialog-node/dialog-node.component';
+
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -25,7 +28,8 @@ import { TesterComponent } from './tester/tester.component';
     WorkproMgmtComponent,
     WorkproEditMgmtComponent,
     WorkComponent,
-    TesterComponent
+    TesterComponent,
+    DialogNodeComponent
   ],
   imports: [
     BrowserModule,
@@ -33,8 +37,10 @@ import { TesterComponent } from './tester/tester.component';
     HttpClientModule,
     BrowserAnimationsModule,
     MantillaModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    FormsModule,
   ],
+  entryComponents:[DialogNodeComponent],
   providers: [FetchDataService],
   bootstrap: [AppComponent]
 })

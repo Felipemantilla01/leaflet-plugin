@@ -12,6 +12,10 @@ export class TesterComponent implements AfterViewInit {
   nodos
   lineas
   progreso: number = 5
+  proceso={
+    name:'nombre de proceso',
+    id:'id de proceso'
+  }
 
   constructor(
     private _fetchData: FetchDataService
